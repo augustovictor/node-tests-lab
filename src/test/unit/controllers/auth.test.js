@@ -40,7 +40,7 @@ describe('AuthController', function () {
         });
     });
 
-    describe('getIndex', function () {
+    describe.only('getIndex', function () {
         let user = {};
         
         beforeEach('creates user and assign roles', function () {
@@ -54,18 +54,19 @@ describe('AuthController', function () {
         });
 
         it('should render index', function () {
-            const isAuth = sinon.stub(user, 'isAuthorized').returns(false);
+            const isAuth = sinon.stub(user, 'isAuthorized').returns(true);
             // const isAuth = sinon.stub(user, 'isAuthorized').throws();
             const req = { user };
             const res = {
-                render: sinon.spy()
+                render: function() {}
             };
+
+            const mock = sinon.mock(res);
+            mock.expects('render').once().withExactArgs('index');
 
             authController.getIndex(req, res);
             isAuth.calledOnce.should.be.true;
-            // console.log(res.render);
-            res.render.calledOnce.should.be.true;
-            res.render.firstCall.args[0].should.equal('index');
+            mock.verify();
         });
     });
 });
