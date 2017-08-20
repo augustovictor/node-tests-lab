@@ -11,3 +11,7 @@ exports.isAuthorizedAsync = role => {
         setTimeout(() => resolve(roles.includes(role)), 2600);
     });
 };
+
+exports.getIndex = (req, res) => {
+    res.render('index');
+}
