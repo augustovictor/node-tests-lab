@@ -1,9 +1,17 @@
 let roles = ['admin', 'common'];
+let user;
 
-exports.setRoles = roles => roles = roles;
+exports.setUser = newUser => user = newUser;
+
+exports.setRoles = roles => {
+    roles = roles
+    user.roles = roles;
+};
 
 exports.isAuthorized = role => {
-    return roles.includes(role);
+    if(user) {
+        return user.isAuthorized(role);
+    }
 };
 
 exports.isAuthorizedAsync = role => {
