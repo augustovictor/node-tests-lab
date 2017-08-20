@@ -10,7 +10,7 @@ chai.use(chaiAsPromised);
 chai.should(); // append should to chai
 
 describe('AuthController', function () {
-    describe.only('isAuthorized', function () {
+    describe('isAuthorized', function () {
         let user = {};
        
         beforeEach('creates user and assign roles', function () {
@@ -22,7 +22,7 @@ describe('AuthController', function () {
             }
             sinon.spy(user, 'isAuthorized');
             authController.setUser(user);
-        })
+        });
 
         it('should return false if user not authorized', function () {
             const isAuth = authController.isAuthorized('manager');
@@ -41,13 +41,28 @@ describe('AuthController', function () {
     });
 
     describe('getIndex', function () {
+        let user = {};
+        
+        beforeEach('creates user and assign roles', function () {
+            user = {
+                roles: ['common'],
+                isAuthorized: function (role) {
+                    return this.roles.includes(role);
+                }
+            }
+            authController.setUser(user);
+        });
+
         it('should render index', function () {
-            const req = {};
+            const isAuth = sinon.stub(user, 'isAuthorized').returns(false);
+            // const isAuth = sinon.stub(user, 'isAuthorized').throws();
+            const req = { user };
             const res = {
                 render: sinon.spy()
             };
 
             authController.getIndex(req, res);
+            isAuth.calledOnce.should.be.true;
             // console.log(res.render);
             res.render.calledOnce.should.be.true;
             res.render.firstCall.args[0].should.equal('index');

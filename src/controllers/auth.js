@@ -21,5 +21,12 @@ exports.isAuthorizedAsync = role => {
 };
 
 exports.getIndex = (req, res) => {
-    res.render('index');
+    try {
+        if(req.user.isAuthorized('admin')) {
+            return res.render('index');
+        }
+        res.render('notAuth');
+    } catch (error) {
+        res.render('error');
+    }
 }
