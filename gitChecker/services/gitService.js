@@ -45,11 +45,11 @@ module.exports = function () {
 
                 response.on('end', function () {
                     var user = JSON.parse(str);
-                    getRepos(userId, function (repos) {
-                       //console.log('repos');
-                        user.repos = repos;
-                        resolve(user);
-                    })
+                    // getRepos(userId, function (repos) {
+                    //    //console.log('repos');
+                    //     user.repos = repos;
+                         resolve(user);
+                    // })
 
                 });
                 response.on('error', (e) => {
