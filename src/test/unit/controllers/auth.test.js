@@ -40,7 +40,7 @@ describe('AuthController', function () {
         });
     });
 
-    describe.only('getIndex', function () {
+    describe('getIndex', function () {
         let user = {};
         
         beforeEach('creates user and assign roles', function () {
